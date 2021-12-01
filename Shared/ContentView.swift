@@ -132,7 +132,6 @@ struct ContentView: View {
     @EnvironmentObject var historyStore: HistoryStore<PayloadHistoryItem>
 
     init(historyStore: HistoryStore<PayloadHistoryItem>) {
-        /* Override TextEditor background to allow for setting a custom background in SwiftUI */
         devicesService = DevicesService(historyStore: historyStore)
     }
 
