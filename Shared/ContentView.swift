@@ -23,6 +23,7 @@ struct Device: Codable, Identifiable, Hashable, Equatable {
         case shutdown = "Shutdown"
         case shuttingDown = "Shutting Down"
         case booted = "Booted"
+        case creating = "Creating"
         case unknown = "unknown"
     }
 
