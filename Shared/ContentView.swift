@@ -98,12 +98,12 @@ class DevicesService: ObservableObject {
         try! Process.execute(path: URL(fileURLWithPath: "/usr/bin/xcrun"),
                              arguments: ["simctl", "list", "--json"],
                              input: nil) { (result) in
-            switch result {
-            case .success(let successString):
-                let data = successString.data(using: .utf8)!
-                let listResult = try? JSONDecoder().decode(ListResult.self, from: data)
-                self.devices = listResult?.devices ?? []
-            case .failure(let error):
+            do {
+                let output = try result.get()
+                let data = output.data(using: .utf8)!
+                let listResult = try JSONDecoder().decode(ListResult.self, from: data)
+                self.devices = listResult.devices
+            } catch {
                 print("🤢", error)
             }
         }
