@@ -155,6 +155,7 @@ struct ContentView: View {
                         .foregroundColor(Color(.textColor))
                         .background(Color(.textBackgroundColor))
                         .cornerRadius(6.0)
+                        .disableAutocorrection(true)
                         .clipped()
                         .frame(minHeight: 20)
                         .shadow(radius: 1)
