@@ -41,7 +41,7 @@ struct Device: Codable, Identifiable, Hashable, Equatable {
 
 struct ListResult: Codable {
     public var devices: [Device] {
-        _devices.flatMap({ $0.value })
+        _devices.values.flatMap { $0 }
     }
 
     private var _devices: [String: [Device]]
