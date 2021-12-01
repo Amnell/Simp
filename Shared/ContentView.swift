@@ -64,7 +64,7 @@ class DevicesService: ObservableObject {
     }
     @Published var selectedDevice: Device? {
         didSet {
-            print(selectedDevice)
+            print(selectedDevice as Any)
         }
     }
 
