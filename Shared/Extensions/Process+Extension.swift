@@ -8,6 +8,7 @@
 import Foundation
 
 extension Process {
+    
     enum ProcessRunError: Swift.Error {
         case invalidPathURL
         case error(String?)
@@ -70,7 +71,7 @@ extension Process {
                 completion?(.failure(ProcessRunError.error(errorString)))
             }
             else if let data = standardOutData {
-                if let successString = String(data: data, encoding: .utf8) {
+                if let successString = String(data: data, encoding: .utf8)?.trimmingCharacters(in: .whitespacesAndNewlines) {
                     completion?(.success(successString))
                 } else {
                     completion?(.failure(ProcessRunError.error("Failed to parse success data to string")))
@@ -81,5 +82,26 @@ extension Process {
         try process.run()
 
         outputPipe.fileHandleForWriting.closeFile()
+    }
+}
+
+// MARK: Async/Await
+
+extension Process {
+
+    static func asyncExecute(path: URL, arguments: String, input: String? = nil) async throws -> String {
+        try await asyncExecute(path: path, arguments: arguments.components(separatedBy: " "), input: input)
+    }
+
+    static func asyncExecute(path: URL, arguments: [String], input: String? = nil) async throws -> String {
+        try await withCheckedThrowingContinuation { continuation in
+            do {
+                try execute(path: path, arguments: arguments, input: input) { result in
+                    continuation.resume(with: result)
+                }
+            } catch {
+                continuation.resume(throwing: error)
+            }
+        }
     }
 }
