@@ -16,6 +16,8 @@ extension Process {
 
     static func execute(path: URL, arguments: [String], input: String?, completion: ((Result<String, ProcessRunError>)->Void)?) throws {
         guard path.isFileURL else { throw ProcessRunError.invalidPathURL }
+        
+        print("💾", path.absoluteString, arguments.joined(separator: " "), input)
 
         let outputPipe = Pipe()
         let inputPipe = Pipe()
@@ -72,6 +74,7 @@ extension Process {
             }
             else if let data = standardOutData {
                 if let successString = String(data: data, encoding: .utf8)?.trimmingCharacters(in: .whitespacesAndNewlines) {
+                    print("🕺 successString:", successString)
                     completion?(.success(successString))
                 } else {
                     completion?(.failure(ProcessRunError.error("Failed to parse success data to string")))
@@ -88,20 +91,20 @@ extension Process {
 // MARK: Async/Await
 
 extension Process {
-
-    static func asyncExecute(path: URL, arguments: String, input: String? = nil) async throws -> String {
-        try await asyncExecute(path: path, arguments: arguments.components(separatedBy: " "), input: input)
-    }
-
-    static func asyncExecute(path: URL, arguments: [String], input: String? = nil) async throws -> String {
-        try await withCheckedThrowingContinuation { continuation in
-            do {
-                try execute(path: path, arguments: arguments, input: input) { result in
-                    continuation.resume(with: result)
-                }
-            } catch {
-                continuation.resume(throwing: error)
-            }
-        }
+    public static func cmd(_ command: String) -> String {
+        let task = Process()
+        let pipe = Pipe()
+        let errorPipe = Pipe()
+        
+        task.standardOutput = pipe
+        task.standardError = errorPipe
+        task.arguments = ["-c", command]
+        task.launchPath = "/bin/sh"
+        task.launch()
+        
+        let data = pipe.fileHandleForReading.readDataToEndOfFile()
+        let output = String(data: data, encoding: .utf8)!
+        
+        return output
     }
 }
