@@ -44,26 +44,29 @@ public class DeviceDiscoveryManager: ObservableObject {
 
     @discardableResult
     public func asyncFetch() async throws -> [Device] {
-        let output = Process.cmd("/usr/bin/xcrun simctl list --json")
+        let devices = try await withThrowingTaskGroup(of: [Device].self) { group -> [Device] in
+            let output = Process.cmd("/usr/bin/xcrun simctl list --json")
 
-        let data = output.data(using: .utf8)!
-        let listResult = try JSONDecoder().decode(DevicesResult.self, from: data)
+            let data = output.data(using: .utf8)!
+            let listResult = try JSONDecoder().decode(DevicesResult.self, from: data)
 
-
-        let devices = await withThrowingTaskGroup(of: [Device].self) { group -> [Device] in
             var theDevices: [Device] = []
             
             for var device in listResult.devices {
-                if device.state == .booted {
-                    device.applications = try? await appDiscoveryService.apps(in: device)
-                }
+                device.applications = try? await appDiscoveryService.apps(in: device)
                 theDevices.append(device)
             }
             return theDevices
         }
 
-        self.devices = devices
+        self.devices = devices.sorted(by: { lhs, rhs in
+            if lhs.name == rhs.name {
+                return lhs.udid < rhs.udid
+            }
+            
+            return (lhs.name < rhs.name)
+        })
         
-        return devices
+        return self.devices
     }
 }

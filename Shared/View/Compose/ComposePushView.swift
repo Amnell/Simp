@@ -32,35 +32,11 @@ extension Sequence {
 }
 
 struct ComposePushView: View {
-    @ObservedObject var viewModel: ComposePushViewModel
-
+    @StateObject var viewModel: ComposePushViewModel
     @AppStorage("fontsize") var fontSize = Int(NSFont.systemFontSize + 4)
-
-    init(viewModel: ComposePushViewModel) {
-        self.viewModel = viewModel
-    }
 
     var body: some View {
         Form {
-            Section {
-                Picker("Device", selection: $viewModel.selectedDeviceId) {
-                    ForEach(viewModel.bootedDevices) { (device) in
-                        HStack {
-                            Image(systemName: "iphone")
-                            (Text(device.name) + Text("\n\(device.udid)").font(.subheadline))
-                        }.tag(device.id)
-                    }
-                }
-
-                Picker("App", selection: $viewModel.selectedApplicationId) {
-                    if let applications = viewModel.selectedDevice?.applications?.sorted(by: \.name) {
-                        ForEach(applications) { (app) in
-                            (Text(app.name) + Text("\n\(app.bundleIdentifier)").font(.subheadline)).tag(app.id)
-                        }
-                    }
-                }
-            }
-
             Section(header: Text("Payload")) {
                 VStack {
                     CodeEditor(source: $viewModel.payload,
@@ -84,16 +60,15 @@ struct ComposePushView: View {
             }
         }
         .padding()
-        .onAppear(perform: {
-            viewModel.load()
-        })
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ComposePushView(viewModel: ComposePushViewModel(historyStore: HistoryStore<Push>.historyItemMock,
-                                                        push: HistoryStore<Push>.historyItemMock.items.first,
-                                                        deviceDiscoveryManager: DeviceDiscoveryManager(appDiscoveryService: ApplicationDiscoveryService())))
+        ComposePushView(viewModel: ComposePushViewModel(
+            device: Device(dataPath: "", logPath: "", udid: "", isAvailable: true, deviceTypeIdentifier: "iphone", state: .booted, name: "Hello"),
+            application: Application(id: "", path: "", bundleIdentifier: "somethung.s", name: "Name", iconUrl: nil),
+            push: nil,
+            historyStore: HistoryStore<Push>()))
     }
 }

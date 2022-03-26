@@ -91,10 +91,16 @@ extension Process {
 // MARK: Async/Await
 
 extension Process {
+    @discardableResult
     public static func cmd(_ command: String) -> String {
         let task = Process()
         let pipe = Pipe()
+        let fileReadHandle = pipe.fileHandleForReading
         let errorPipe = Pipe()
+        
+        defer {
+            task.terminate()
+        }
         
         task.standardOutput = pipe
         task.standardError = errorPipe
@@ -102,8 +108,9 @@ extension Process {
         task.launchPath = "/bin/sh"
         task.launch()
         
-        let data = pipe.fileHandleForReading.readDataToEndOfFile()
+        let data = fileReadHandle.readDataToEndOfFile()
         let output = String(data: data, encoding: .utf8)!
+        try? fileReadHandle.close()
         
         return output
     }

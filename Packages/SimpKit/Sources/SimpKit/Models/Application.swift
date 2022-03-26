@@ -22,6 +22,14 @@ public struct Application: Equatable, Hashable, Codable {
         
         return NSImage(byReferencing: iconUrl)
     }
+    
+    public init(id: String, path: String, bundleIdentifier: String, name: String, iconUrl: URL?) {
+        self.id = id
+        self.path = path
+        self.bundleIdentifier = bundleIdentifier
+        self.name = name
+        self.iconUrl = iconUrl
+    }
 }
 
 extension Application: Identifiable {

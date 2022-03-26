@@ -12,54 +12,24 @@ import SimpKit
 
 @MainActor
 class ComposePushViewModel: ObservableObject {
-    @ObservedObject var deviceDiscoveryManager: DeviceDiscoveryManager
     @ObservedObject var historyStore: HistoryStore<Push>
-
-    @Published var devices: [Device] = []
+    
     @Published var payload: String = ""
-    @Published var selectedDeviceId: String = ""
-    @Published var selectedApplicationId: String = ""
     
-    var selectedApplication: Application? {
-        selectedDevice?.applications?.first(where: { $0.id == selectedApplicationId })
-    }
+    @Published private(set) var device: Device
+    @Published private(set) var application: Application
     
-    var selectedDevice: Device? {
-        devices.first(where: { $0.id == selectedDeviceId })
-    }
-
-    private var devicesCancellable: AnyCancellable?
-    private var cancellables = Set<AnyCancellable>()
-
-    public var bootedDevices: [Device] {
-        devices.filter({$0.state == .booted})
-    }
-
-    init(historyStore: HistoryStore<Push>, push: Push? = nil, deviceDiscoveryManager: DeviceDiscoveryManager) {
+    init(device: Device, application: Application, push: Push? = nil, historyStore: HistoryStore<Push>) {
         let push = push ?? historyStore.items.last
-        
+        self.device = device
+        self.application = application
         self.historyStore = historyStore
         self.payload = push?.payload ?? ""
-        self.deviceDiscoveryManager = deviceDiscoveryManager
-    }
-
-    func load() {
-        deviceDiscoveryManager.startFetch(interval: 10)
-
-        devicesCancellable = deviceDiscoveryManager.$devices
-            .assign(to: \.devices, on: self)
     }
 
     func send() throws {
-        guard
-            let device = selectedDevice,
-            let selectedApplication = selectedApplication
-        else {
-            return
-        }
-
         Task.init {
-            let push = Push(payload: payload, bundleIdentifier: selectedApplication.bundleIdentifier, date: Date())
+            let push = Push(payload: payload, bundleIdentifier: application.bundleIdentifier, date: Date())
             try await device.asyncSend(push: push)
             historyStore.store(item: push)
         }

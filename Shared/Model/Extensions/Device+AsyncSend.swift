@@ -32,4 +32,13 @@ extension Device {
     func asyncSend(push: Push) async throws -> String {
         try await asyncSend(bundleId: push.bundleIdentifier, payload: push.payload)
     }
+    
+    func boot() throws {
+        Process.cmd("/usr/bin/xcrun simctl boot \(self.udid)")
+        Process.cmd("/usr/bin/open -a simulator")
+    }
+    
+    func shutdown() throws {
+        Process.cmd("/usr/bin/xcrun simctl shutdown \(self.udid)")
+    }
 }

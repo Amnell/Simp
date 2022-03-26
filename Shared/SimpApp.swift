@@ -17,13 +17,22 @@ struct SimpApp: App {
     init() {
         historyStore = HistoryStore<Push>()
         deviceDiscoveryManager = DeviceDiscoveryManager(appDiscoveryService: ApplicationDiscoveryService())
+        deviceDiscoveryManager.startFetch(interval: 10)
 
         try! historyStore.load()
     }
 
     var body: some Scene {
         WindowGroup {
-            ComposePushView(viewModel: ComposePushViewModel(historyStore: historyStore, deviceDiscoveryManager: deviceDiscoveryManager))
+            NavigationView {
+                DevicesView(viewModel: DevicesViewModel(deviceDiscoveryManager: deviceDiscoveryManager))
+                    .navigationTitle("Devices")
+                    .listStyle(.sidebar)
+                
+                Text("Select a device")
+                
+                Text("Select a device")
+            }
             .environmentObject(historyStore)
             .environmentObject(deviceDiscoveryManager)
         }

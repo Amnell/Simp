@@ -30,9 +30,8 @@ public class ApplicationDiscoveryService {
     }
 
     public func apps(in path: String) async -> [Application] {
-        let content = Process.cmd("/bin/ls '\(path)' -1q --color=none --")
-        
-        return await withTaskGroup(of: Application?.self, returning: [Application].self) { taskGroup in
+        await withTaskGroup(of: Application?.self, returning: [Application].self) { taskGroup in
+            let content = Process.cmd("/bin/ls '\(path)' -1q --color=none --")
             var apps = [Application]()
 
             let rows = content
