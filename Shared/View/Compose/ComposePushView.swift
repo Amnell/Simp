@@ -8,10 +8,28 @@
 import SwiftUI
 import Combine
 import CodeEditor
+import SimpKit
 
+enum Order {
+    case increasing
+    case decreasing
+}
 
-
-
+extension Sequence {
+    
+    func sorted<Value: Comparable>(
+        by keyPath: KeyPath<Self.Element, Value>,
+        order: Order = .increasing) -> [Self.Element]
+    {
+        switch order {
+        case .increasing:
+            return self.sorted(by: { $0[keyPath: keyPath]  <  $1[keyPath: keyPath] })
+        case .decreasing:
+            return self.sorted(by: { $0[keyPath: keyPath]  >  $1[keyPath: keyPath] })
+        }
+    }
+    
+}
 
 struct ComposePushView: View {
     @ObservedObject var viewModel: ComposePushViewModel
@@ -25,18 +43,19 @@ struct ComposePushView: View {
     var body: some View {
         Form {
             Section {
-                Picker("Device", selection: $viewModel.selectedDevice) {
-                    Text("none").tag(nil as Device?)
-                    ForEach(viewModel.bootedDevices, id: \.udid) { (device) in
-                        (Text(device.name) + Text("\n\(device.udid)").font(.subheadline)).tag(device as Device?)
+                Picker("Device", selection: $viewModel.selectedDeviceId) {
+                    ForEach(viewModel.bootedDevices) { (device) in
+                        HStack {
+                            Image(systemName: "iphone")
+                            (Text(device.name) + Text("\n\(device.udid)").font(.subheadline))
+                        }.tag(device.id)
                     }
                 }
 
-                Picker("App", selection: $viewModel.selectedApplication) {
-                    Text("none").tag(nil as AppData?)
-                    if let applications = viewModel.selectedDevice?.applications {
-                        ForEach(applications, id: \.bundleIdentifier) { (app) in
-                            (Text(app.name) + Text("\n\(app.bundleIdentifier)}").font(.subheadline)).tag(app as AppData?)
+                Picker("App", selection: $viewModel.selectedApplicationId) {
+                    if let applications = viewModel.selectedDevice?.applications?.sorted(by: \.name) {
+                        ForEach(applications) { (app) in
+                            (Text(app.name) + Text("\n\(app.bundleIdentifier)").font(.subheadline)).tag(app.id)
                         }
                     }
                 }
@@ -61,7 +80,7 @@ struct ComposePushView: View {
                 Spacer()
                 Button("Send") {
                     try? viewModel.send()
-                }
+                }.buttonStyle(BorderedProminentButtonStyle())
             }
         }
         .padding()
@@ -75,6 +94,6 @@ struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ComposePushView(viewModel: ComposePushViewModel(historyStore: HistoryStore<Push>.historyItemMock,
                                                         push: HistoryStore<Push>.historyItemMock.items.first,
-                                                        deviceDiscoveryService: DeviceDiscoveryService(appDiscoveryService: DefaultApplicationDiscoveryService())))
+                                                        deviceDiscoveryManager: DeviceDiscoveryManager(appDiscoveryService: ApplicationDiscoveryService())))
     }
 }

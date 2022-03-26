@@ -8,52 +8,59 @@
 import Foundation
 import SwiftUI
 import Combine
+import SimpKit
 
 @MainActor
 class ComposePushViewModel: ObservableObject {
-    @ObservedObject var deviceDiscoveryService: DeviceDiscoveryService
+    @ObservedObject var deviceDiscoveryManager: DeviceDiscoveryManager
     @ObservedObject var historyStore: HistoryStore<Push>
 
     @Published var devices: [Device] = []
     @Published var payload: String = ""
-    @Published var bundleId: String = ""
-    @Published var selectedDevice: Device?
-    @Published var selectedApplication: AppData? {
-        didSet {
-            if let bundleIdentifier = selectedApplication?.bundleIdentifier {
-                bundleId = bundleIdentifier
-            }
-        }
+    @Published var selectedDeviceId: String = ""
+    @Published var selectedApplicationId: String = ""
+    
+    var selectedApplication: Application? {
+        selectedDevice?.applications?.first(where: { $0.id == selectedApplicationId })
+    }
+    
+    var selectedDevice: Device? {
+        devices.first(where: { $0.id == selectedDeviceId })
     }
 
     private var devicesCancellable: AnyCancellable?
+    private var cancellables = Set<AnyCancellable>()
 
     public var bootedDevices: [Device] {
         devices.filter({$0.state == .booted})
     }
 
-    init(historyStore: HistoryStore<Push>, push: Push? = nil, deviceDiscoveryService: DeviceDiscoveryService) {
+    init(historyStore: HistoryStore<Push>, push: Push? = nil, deviceDiscoveryManager: DeviceDiscoveryManager) {
+        let push = push ?? historyStore.items.last
+        
         self.historyStore = historyStore
         self.payload = push?.payload ?? ""
-        self.bundleId = push?.bundleIdentifier ?? ""
-        self.deviceDiscoveryService = deviceDiscoveryService
+        self.deviceDiscoveryManager = deviceDiscoveryManager
     }
 
     func load() {
-        deviceDiscoveryService.startFetch(interval: 10)
+        deviceDiscoveryManager.startFetch(interval: 10)
 
-        devicesCancellable = deviceDiscoveryService.$devices
+        devicesCancellable = deviceDiscoveryManager.$devices
             .assign(to: \.devices, on: self)
     }
 
     func send() throws {
-        guard let selectedDevice = selectedDevice else {
+        guard
+            let device = selectedDevice,
+            let selectedApplication = selectedApplication
+        else {
             return
         }
 
         Task.init {
-            let push = Push(payload: payload, bundleIdentifier: bundleId, date: Date())
-            try await selectedDevice.asyncSend(push: push)
+            let push = Push(payload: payload, bundleIdentifier: selectedApplication.bundleIdentifier, date: Date())
+            try await device.asyncSend(push: push)
             historyStore.store(item: push)
         }
     }
