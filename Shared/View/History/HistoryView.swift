@@ -6,10 +6,11 @@
 //
 
 import SwiftUI
+import SimpKit
 
 struct HistoryView: View {
     @EnvironmentObject var historyStore: HistoryStore<Push>
-    @EnvironmentObject var deviceDiscoveryService: DeviceDiscoveryService
+    @EnvironmentObject var deviceDiscoveryManager: DeviceDiscoveryManager
 
     @State private var selectedPush: Push? = nil
 
@@ -22,7 +23,7 @@ struct HistoryView: View {
             NavigationLink(
                 destination: ComposePushView(viewModel: ComposePushViewModel(historyStore: historyStore,
                                                                              push: push,
-                                                                             deviceDiscoveryService: deviceDiscoveryService)),
+                                                                             deviceDiscoveryManager: deviceDiscoveryManager)),
                 tag: push,
                 selection: $selectedPush,
                 label: {

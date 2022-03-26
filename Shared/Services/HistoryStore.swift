@@ -18,8 +18,11 @@ class HistoryStore<T: Codable & Hashable & Identifiable>: ObservableObject {
         self.limit = limit ?? defaultLimit
     }
 
-    func store(item: T) {
+    func store(item: T, persist: Bool = true) {
         items.append(item)
+        if persist {
+            try? self.persist()
+        }
     }
 
     func delete(item: T) {
@@ -31,42 +34,48 @@ class HistoryStore<T: Codable & Hashable & Identifiable>: ObservableObject {
     }
 
     func historyFilePath(name: String, extension withExtension: String) -> URL? {
-        FileManager.default.homeDirectoryForCurrentUser
-            .appendingPathComponent(".simp")
+        dotfilePath()?
             .appendingPathComponent(name)
             .appendingPathExtension(withExtension)
     }
 
+    func dotfilePath() -> URL? {
+        FileManager.default.homeDirectoryForCurrentUser
+            .appendingPathComponent(".simp")
+    }
+
     func createDotDir() {
-//        FileManager.default.createDirectory(at: historyFilePath(name: "history", extension: "data"), withIntermediateDirectories: <#T##Bool#>, attributes: <#T##[FileAttributeKey : Any]?#>)
+        if !FileManager.default.fileExists(atPath: dotfilePath()!.path) {
+            try! FileManager.default.createDirectory(at: dotfilePath()!, withIntermediateDirectories: true, attributes: nil)
+        }
     }
 
     func persist() throws {
-
         createDotDir()
-
-        let data = try JSONEncoder().encode(items)
+        
+        let cappedItems = Array(items.suffix(limit))
+        
+        let data = try JSONEncoder().encode(cappedItems)
         if let filePath = historyFilePath(name: "history", extension: "data") {
-            print(filePath)
-            FileManager.default.createFile(atPath: filePath.absoluteString, contents: data, attributes: nil)
+            FileManager.default.createFile(atPath: filePath.path, contents: data)
         }
     }
 
     func load() throws {
         if let filePath = historyFilePath(name: "history", extension: "data") {
 
-            guard FileManager.default.fileExists(atPath: filePath.absoluteString) else {
-                print("No history found")
+            guard FileManager.default.fileExists(atPath: filePath.path) else {
                 return
             }
 
-            let data = try Data(contentsOf: filePath)
+            let data = try Data(contentsOf: filePath.standardizedFileURL)
+            
             do {
                 let history = try JSONDecoder().decode([T].self, from: data)
 
                 items = history
             } catch {
-                try? FileManager.default.removeItem(at: filePath)
+                try! FileManager.default.removeItem(at: filePath)
             }
         }
     }

@@ -6,26 +6,26 @@
 //
 
 import SwiftUI
+import SimpKit
 
 @main
 struct SimpApp: App {
 
     private let historyStore: HistoryStore<Push>
-    private let deviceDiscoveryService: DeviceDiscoveryService
+    private let deviceDiscoveryManager: DeviceDiscoveryManager
 
     init() {
-        historyStore = HistoryStore<Push>.historyItemMock
-        deviceDiscoveryService = DeviceDiscoveryService(appDiscoveryService: DefaultApplicationDiscoveryService())
+        historyStore = HistoryStore<Push>()
+        deviceDiscoveryManager = DeviceDiscoveryManager(appDiscoveryService: ApplicationDiscoveryService())
 
-        try! historyStore.persist()
         try! historyStore.load()
     }
 
     var body: some Scene {
         WindowGroup {
-            ComposePushView(viewModel: ComposePushViewModel(historyStore: historyStore, deviceDiscoveryService: deviceDiscoveryService))
+            ComposePushView(viewModel: ComposePushViewModel(historyStore: historyStore, deviceDiscoveryManager: deviceDiscoveryManager))
             .environmentObject(historyStore)
-            .environmentObject(deviceDiscoveryService)
+            .environmentObject(deviceDiscoveryManager)
         }
         .commands {
             CommandGroup(after: .newItem) {
