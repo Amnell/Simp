@@ -6,15 +6,26 @@
 //
 
 import Foundation
+import SimpKit
 
 // MARK: Async/Await
 
 extension Device {
+    
+    private func tempAPNSFile(payload: String) throws -> URL {
+        let temporaryDirectoryURL = URL(fileURLWithPath: NSTemporaryDirectory(),
+                                        isDirectory: true)
+        let temporaryFilename = ProcessInfo().globallyUniqueString + ".apns"
+        let temporaryFileURL = temporaryDirectoryURL.appendingPathComponent(temporaryFilename)
+        try payload.data(using: .utf8)!.write(to: temporaryFileURL, options: .atomic)
+        
+        return temporaryFileURL
+    }
+    
     @discardableResult
     func asyncSend(bundleId: String, payload: String) async throws -> String {
-        try await Process.asyncExecute(path: URL(fileURLWithPath: "/usr/bin/xcrun"),
-                                       arguments: ["simctl", "push", udid, bundleId, "-"],
-                                       input: payload)
+        let file = try tempAPNSFile(payload: payload)
+        return Process.cmd("/usr/bin/xcrun simctl push \(udid) \(bundleId) \(file.path)")
     }
 
     @discardableResult
