@@ -3,71 +3,151 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		11AA018C26060D5B00EDE89E /* SimpApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11AA017926060D5800EDE89E /* SimpApp.swift */; };
+		1113C03B275E5232009CE68D /* CodeEditor in Frameworks */ = {isa = PBXBuildFile; productRef = 1113C03A275E5232009CE68D /* CodeEditor */; };
+		1113C03D275E68F8009CE68D /* ComposePushViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1113C03C275E68F8009CE68D /* ComposePushViewModel.swift */; };
+		117EB227275F442D0072188D /* Device+AsyncSend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 117EB226275F442D0072188D /* Device+AsyncSend.swift */; };
+		1184035C2758D02500161043 /* Date+RelativeTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1184035A2758D02500161043 /* Date+RelativeTime.swift */; };
+		11840366275A126A00161043 /* HistoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11840364275A126A00161043 /* HistoryStore.swift */; };
+		11840369275A12BB00161043 /* Push.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11840367275A12BB00161043 /* Push.swift */; };
+		11A95D6727EC825500CF6777 /* SimpKit in Frameworks */ = {isa = PBXBuildFile; productRef = 11A95D6627EC825500CF6777 /* SimpKit */; };
+		11A95D6927EF51C000CF6777 /* DevicesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A95D6827EF51C000CF6777 /* DevicesView.swift */; };
+		11A95D6C27EF58CC00CF6777 /* DeviceRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A95D6B27EF58CC00CF6777 /* DeviceRowView.swift */; };
+		11A95D6F27EFA53400CF6777 /* FileWatcher in Frameworks */ = {isa = PBXBuildFile; productRef = 11A95D6E27EFA53400CF6777 /* FileWatcher */; };
+		11A95D7227EFB4D400CF6777 /* ApplicationsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A95D7127EFB4D400CF6777 /* ApplicationsListView.swift */; };
+		11A95D7727F1014000CF6777 /* ApplicationRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A95D7627F1014000CF6777 /* ApplicationRowView.swift */; };
 		11AA018D26060D5B00EDE89E /* SimpApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11AA017926060D5800EDE89E /* SimpApp.swift */; };
-		11AA018E26060D5B00EDE89E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11AA017A26060D5800EDE89E /* ContentView.swift */; };
-		11AA018F26060D5B00EDE89E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11AA017A26060D5800EDE89E /* ContentView.swift */; };
-		11AA019026060D5B00EDE89E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 11AA017B26060D5B00EDE89E /* Assets.xcassets */; };
+		11AA018F26060D5B00EDE89E /* ComposePushView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11AA017A26060D5800EDE89E /* ComposePushView.swift */; };
 		11AA019126060D5B00EDE89E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 11AA017B26060D5B00EDE89E /* Assets.xcassets */; };
-		11AA01A72607544B00EDE89E /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11AA01A62607544B00EDE89E /* HistoryView.swift */; };
-		11AA01A82607544B00EDE89E /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11AA01A62607544B00EDE89E /* HistoryView.swift */; };
-		11AA01AD26087E0500EDE89E /* Process+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11AA01AC26087E0500EDE89E /* Process+Extension.swift */; };
-		11AA01AE26087E0500EDE89E /* Process+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11AA01AC26087E0500EDE89E /* Process+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1113C03C275E68F8009CE68D /* ComposePushViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposePushViewModel.swift; sourceTree = "<group>"; };
+		117EB226275F442D0072188D /* Device+AsyncSend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Device+AsyncSend.swift"; sourceTree = "<group>"; };
+		1184035A2758D02500161043 /* Date+RelativeTime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+RelativeTime.swift"; sourceTree = "<group>"; };
+		11840364275A126A00161043 /* HistoryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryStore.swift; sourceTree = "<group>"; };
+		11840367275A12BB00161043 /* Push.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Push.swift; sourceTree = "<group>"; };
+		11A95D6527EC7C6F00CF6777 /* SimpKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = SimpKit; sourceTree = "<group>"; };
+		11A95D6827EF51C000CF6777 /* DevicesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevicesView.swift; sourceTree = "<group>"; };
+		11A95D6B27EF58CC00CF6777 /* DeviceRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceRowView.swift; sourceTree = "<group>"; };
+		11A95D7127EFB4D400CF6777 /* ApplicationsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationsListView.swift; sourceTree = "<group>"; };
+		11A95D7627F1014000CF6777 /* ApplicationRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationRowView.swift; sourceTree = "<group>"; };
 		11AA017926060D5800EDE89E /* SimpApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpApp.swift; sourceTree = "<group>"; };
-		11AA017A26060D5800EDE89E /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		11AA017A26060D5800EDE89E /* ComposePushView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposePushView.swift; sourceTree = "<group>"; };
 		11AA017B26060D5B00EDE89E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		11AA018026060D5B00EDE89E /* Simp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Simp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		11AA018326060D5B00EDE89E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		11AA018826060D5B00EDE89E /* Simp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Simp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		11AA018A26060D5B00EDE89E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		11AA018B26060D5B00EDE89E /* macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = macOS.entitlements; sourceTree = "<group>"; };
-		11AA01A62607544B00EDE89E /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
-		11AA01AC26087E0500EDE89E /* Process+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Process+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		11AA017D26060D5B00EDE89E /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		11AA018526060D5B00EDE89E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				11A95D6F27EFA53400CF6777 /* FileWatcher in Frameworks */,
+				11A95D6727EC825500CF6777 /* SimpKit in Frameworks */,
+				1113C03B275E5232009CE68D /* CodeEditor in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1113C039275E5232009CE68D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		1113C03E275E6950009CE68D /* Compose */ = {
+			isa = PBXGroup;
+			children = (
+				11AA017A26060D5800EDE89E /* ComposePushView.swift */,
+				1113C03C275E68F8009CE68D /* ComposePushViewModel.swift */,
+			);
+			path = Compose;
+			sourceTree = "<group>";
+		};
+		117EB224275F43D10072188D /* View */ = {
+			isa = PBXGroup;
+			children = (
+				11A95D7027EFB48F00CF6777 /* Device */,
+				1113C03E275E6950009CE68D /* Compose */,
+				11A95D6A27EF58C000CF6777 /* Devices */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		117EB225275F44150072188D /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				117EB226275F442D0072188D /* Device+AsyncSend.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		11840363275A11AB00161043 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				117EB225275F44150072188D /* Extensions */,
+				11840367275A12BB00161043 /* Push.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		1184036A275A1BE500161043 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				11840364275A126A00161043 /* HistoryStore.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		11A95D6A27EF58C000CF6777 /* Devices */ = {
+			isa = PBXGroup;
+			children = (
+				11A95D6827EF51C000CF6777 /* DevicesView.swift */,
+				11A95D6B27EF58CC00CF6777 /* DeviceRowView.swift */,
+			);
+			path = Devices;
+			sourceTree = "<group>";
+		};
+		11A95D7027EFB48F00CF6777 /* Device */ = {
+			isa = PBXGroup;
+			children = (
+				11A95D7127EFB4D400CF6777 /* ApplicationsListView.swift */,
+				11A95D7627F1014000CF6777 /* ApplicationRowView.swift */,
+			);
+			path = Device;
+			sourceTree = "<group>";
+		};
 		11AA017326060D5800EDE89E = {
 			isa = PBXGroup;
 			children = (
+				11AC977927EC497700DAEFDD /* Packages */,
 				11AA017826060D5800EDE89E /* Shared */,
 				11AA018226060D5B00EDE89E /* iOS */,
 				11AA018926060D5B00EDE89E /* macOS */,
 				11AA018126060D5B00EDE89E /* Products */,
+				1113C039275E5232009CE68D /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
 		11AA017826060D5800EDE89E /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				1184036A275A1BE500161043 /* Services */,
+				11840363275A11AB00161043 /* Model */,
 				11AA01AB26087DF300EDE89E /* Extensions */,
 				11AA017926060D5800EDE89E /* SimpApp.swift */,
-				11AA017A26060D5800EDE89E /* ContentView.swift */,
+				117EB224275F43D10072188D /* View */,
 				11AA017B26060D5B00EDE89E /* Assets.xcassets */,
-				11AA01A62607544B00EDE89E /* HistoryView.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -75,7 +155,6 @@
 		11AA018126060D5B00EDE89E /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				11AA018026060D5B00EDE89E /* Simp.app */,
 				11AA018826060D5B00EDE89E /* Simp.app */,
 			);
 			name = Products;
@@ -101,31 +180,22 @@
 		11AA01AB26087DF300EDE89E /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				11AA01AC26087E0500EDE89E /* Process+Extension.swift */,
+				1184035A2758D02500161043 /* Date+RelativeTime.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		11AC977927EC497700DAEFDD /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				11A95D6527EC7C6F00CF6777 /* SimpKit */,
+			);
+			path = Packages;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		11AA017F26060D5B00EDE89E /* Simp (iOS) */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 11AA019426060D5B00EDE89E /* Build configuration list for PBXNativeTarget "Simp (iOS)" */;
-			buildPhases = (
-				11AA017C26060D5B00EDE89E /* Sources */,
-				11AA017D26060D5B00EDE89E /* Frameworks */,
-				11AA017E26060D5B00EDE89E /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "Simp (iOS)";
-			productName = "SimP (iOS)";
-			productReference = 11AA018026060D5B00EDE89E /* Simp.app */;
-			productType = "com.apple.product-type.application";
-		};
 		11AA018726060D5B00EDE89E /* Simp (macOS) */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 11AA019726060D5B00EDE89E /* Build configuration list for PBXNativeTarget "Simp (macOS)" */;
@@ -139,6 +209,11 @@
 			dependencies = (
 			);
 			name = "Simp (macOS)";
+			packageProductDependencies = (
+				1113C03A275E5232009CE68D /* CodeEditor */,
+				11A95D6627EC825500CF6777 /* SimpKit */,
+				11A95D6E27EFA53400CF6777 /* FileWatcher */,
+			);
 			productName = "SimP (macOS)";
 			productReference = 11AA018826060D5B00EDE89E /* Simp.app */;
 			productType = "com.apple.product-type.application";
@@ -149,12 +224,9 @@
 		11AA017426060D5800EDE89E /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1240;
+				LastSwiftUpdateCheck = 1330;
 				LastUpgradeCheck = 1240;
 				TargetAttributes = {
-					11AA017F26060D5B00EDE89E = {
-						CreatedOnToolsVersion = 12.4;
-					};
 					11AA018726060D5B00EDE89E = {
 						CreatedOnToolsVersion = 12.4;
 					};
@@ -169,25 +241,20 @@
 				Base,
 			);
 			mainGroup = 11AA017326060D5800EDE89E;
+			packageReferences = (
+				1113C036275E51AF009CE68D /* XCRemoteSwiftPackageReference "CodeEditor" */,
+				11A95D6D27EFA53400CF6777 /* XCRemoteSwiftPackageReference "FileWatcher" */,
+			);
 			productRefGroup = 11AA018126060D5B00EDE89E /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				11AA017F26060D5B00EDE89E /* Simp (iOS) */,
 				11AA018726060D5B00EDE89E /* Simp (macOS) */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		11AA017E26060D5B00EDE89E /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				11AA019026060D5B00EDE89E /* Assets.xcassets in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		11AA018626060D5B00EDE89E /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -199,25 +266,21 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		11AA017C26060D5B00EDE89E /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				11AA018E26060D5B00EDE89E /* ContentView.swift in Sources */,
-				11AA01AD26087E0500EDE89E /* Process+Extension.swift in Sources */,
-				11AA01A72607544B00EDE89E /* HistoryView.swift in Sources */,
-				11AA018C26060D5B00EDE89E /* SimpApp.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		11AA018426060D5B00EDE89E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				11AA018F26060D5B00EDE89E /* ContentView.swift in Sources */,
-				11AA01AE26087E0500EDE89E /* Process+Extension.swift in Sources */,
-				11AA01A82607544B00EDE89E /* HistoryView.swift in Sources */,
+				1184035C2758D02500161043 /* Date+RelativeTime.swift in Sources */,
+				11840369275A12BB00161043 /* Push.swift in Sources */,
+				11A95D7227EFB4D400CF6777 /* ApplicationsListView.swift in Sources */,
+				11AA018F26060D5B00EDE89E /* ComposePushView.swift in Sources */,
+				11840366275A126A00161043 /* HistoryStore.swift in Sources */,
+				11A95D6C27EF58CC00CF6777 /* DeviceRowView.swift in Sources */,
+				11A95D6927EF51C000CF6777 /* DevicesView.swift in Sources */,
+				117EB227275F442D0072188D /* Device+AsyncSend.swift in Sources */,
+				11A95D7727F1014000CF6777 /* ApplicationRowView.swift in Sources */,
 				11AA018D26060D5B00EDE89E /* SimpApp.swift in Sources */,
+				1113C03D275E68F8009CE68D /* ComposePushViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -275,6 +338,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -328,53 +392,11 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
-			};
-			name = Release;
-		};
-		11AA019526060D5B00EDE89E /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
-				ENABLE_PREVIEWS = YES;
-				INFOPLIST_FILE = iOS/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = se.amnell.SimP;
-				PRODUCT_NAME = Simp;
-				SDKROOT = iphoneos;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		11AA019626060D5B00EDE89E /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
-				ENABLE_PREVIEWS = YES;
-				INFOPLIST_FILE = iOS/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = se.amnell.SimP;
-				PRODUCT_NAME = Simp;
-				SDKROOT = iphoneos;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
@@ -384,15 +406,17 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = macOS/macOS.entitlements;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 7V5682X48P;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = macOS/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				PRODUCT_BUNDLE_IDENTIFIER = se.amnell.SimP;
 				PRODUCT_NAME = Simp;
 				SDKROOT = macosx;
@@ -406,15 +430,17 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = macOS/macOS.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 9L4KXMSMRN;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = macOS/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				PRODUCT_BUNDLE_IDENTIFIER = se.amnell.SimP;
 				PRODUCT_NAME = Simp;
 				SDKROOT = macosx;
@@ -434,15 +460,6 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		11AA019426060D5B00EDE89E /* Build configuration list for PBXNativeTarget "Simp (iOS)" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				11AA019526060D5B00EDE89E /* Debug */,
-				11AA019626060D5B00EDE89E /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		11AA019726060D5B00EDE89E /* Build configuration list for PBXNativeTarget "Simp (macOS)" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -453,6 +470,42 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		1113C036275E51AF009CE68D /* XCRemoteSwiftPackageReference "CodeEditor" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ZeeZide/CodeEditor";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+		11A95D6D27EFA53400CF6777 /* XCRemoteSwiftPackageReference "FileWatcher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/eonist/FileWatcher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.2.3;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		1113C03A275E5232009CE68D /* CodeEditor */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1113C036275E51AF009CE68D /* XCRemoteSwiftPackageReference "CodeEditor" */;
+			productName = CodeEditor;
+		};
+		11A95D6627EC825500CF6777 /* SimpKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SimpKit;
+		};
+		11A95D6E27EFA53400CF6777 /* FileWatcher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 11A95D6D27EFA53400CF6777 /* XCRemoteSwiftPackageReference "FileWatcher" */;
+			productName = FileWatcher;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 11AA017426060D5800EDE89E /* Project object */;
 }
