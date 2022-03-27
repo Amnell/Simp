@@ -7,111 +7,77 @@
 
 import Foundation
 
-extension Process {
-    
-    enum ProcessRunError: Swift.Error {
-        case invalidPathURL
-        case error(String?)
-    }
-
-    static func execute(path: URL, arguments: [String], input: String?, completion: ((Result<String, ProcessRunError>)->Void)?) throws {
-        guard path.isFileURL else { throw ProcessRunError.invalidPathURL }
-        
-        print("💾", path.absoluteString, arguments.joined(separator: " "), input)
-
-        let outputPipe = Pipe()
-        let inputPipe = Pipe()
-        let errorPipe = Pipe()
-
-        let process = Process()
-
-        process.executableURL = path
-        process.arguments = arguments
-        process.standardOutput = outputPipe.fileHandleForWriting
-        process.standardInput = inputPipe
-        process.standardError = errorPipe
-
-        let group = DispatchGroup()
-        group.enter()
-        process.terminationHandler = { process in
-            process.terminationHandler = nil
-            group.leave()
-        }
-
-        if let input = input {
-            let bytes: [UInt8] = Array(input.utf8)
-            let fh = inputPipe.fileHandleForWriting
-            fh.write(Data(bytes))
-            fh.closeFile()
-        }
-
-        var standardOutData: Data?
-        group.enter()
-        DispatchQueue.global().async {
-            let data = outputPipe.fileHandleForReading.readDataToEndOfFile()
-            outputPipe.fileHandleForReading.closeFile()
-            DispatchQueue.main.async {
-                standardOutData = data
-                group.leave()
-            }
-        }
-
-        var errorOutData: Data?
-        group.enter()
-        DispatchQueue.global().async {
-            let data = errorPipe.fileHandleForReading.readDataToEndOfFile()
-            errorPipe.fileHandleForReading.closeFile()
-            DispatchQueue.main.async {
-                errorOutData = data
-                group.leave()
-            }
-        }
-
-        group.notify(queue: .main) {
-            if let data = errorOutData, standardOutData == nil {
-                let errorString = String(data: data, encoding: .utf8)
-                completion?(.failure(ProcessRunError.error(errorString)))
-            }
-            else if let data = standardOutData {
-                if let successString = String(data: data, encoding: .utf8)?.trimmingCharacters(in: .whitespacesAndNewlines) {
-                    print("🕺 successString:", successString)
-                    completion?(.success(successString))
-                } else {
-                    completion?(.failure(ProcessRunError.error("Failed to parse success data to string")))
-                }
-            }
-        }
-
-        try process.run()
-
-        outputPipe.fileHandleForWriting.closeFile()
-    }
-}
-
 // MARK: Async/Await
 
 extension Process {
     @discardableResult
-    public static func cmd(_ command: String) -> String {
-        let task = Process()
-        let pipe = Pipe()
-        let fileReadHandle = pipe.fileHandleForReading
+    public static func cmd(_ command: String, arguments: [String]) async throws -> String {
+        let command = command.appending(arguments: arguments)
+        return try await cmd(command)
+    }
+    
+    @discardableResult
+    public static func cmd(_ command: String) async throws -> String {
+        let process = Process()
+        
+        let successPipe = Pipe()
+        let successFileReadHandle = successPipe.fileHandleForReading
+        
         let errorPipe = Pipe()
         
-        defer {
-            task.terminate()
+        process.standardOutput = successPipe
+        process.standardError = errorPipe
+        process.arguments = ["-c", command]
+        process.launchPath = "/bin/sh"
+        
+        do {
+            try process.run()
+        } catch {
+            assertionFailure("error: \(error)")
+            throw error
         }
         
-        task.standardOutput = pipe
-        task.standardError = errorPipe
-        task.arguments = ["-c", command]
-        task.launchPath = "/bin/sh"
-        task.launch()
+        let successData = successFileReadHandle.readDataToEndOfFile()
+        try? successFileReadHandle.close()
         
-        let data = fileReadHandle.readDataToEndOfFile()
-        let output = String(data: data, encoding: .utf8)!
-        try? fileReadHandle.close()
-        
+        return successData.output()
+    }
+}
+
+private extension String {
+    var escapingSpaces: String {
+        return replacingOccurrences(of: " ", with: "\\ ")
+    }
+
+    func appending(argument: String) -> String {
+        return "\(self) \"\(argument)\""
+    }
+
+    func appending(arguments: [String]) -> String {
+        return appending(argument: arguments.joined(separator: "\" \""))
+    }
+
+    mutating func append(argument: String) {
+        self = appending(argument: argument)
+    }
+
+    mutating func append(arguments: [String]) {
+        self = appending(arguments: arguments)
+    }
+}
+
+private extension Data {
+    func output() -> String {
+        guard let output = String(data: self, encoding: .utf8) else {
+            return ""
+        }
+
+        guard !output.hasSuffix("\n") else {
+            let endIndex = output.index(before: output.endIndex)
+            return String(output[..<endIndex])
+        }
+
         return output
+
     }
 }

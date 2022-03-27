@@ -26,12 +26,12 @@ public class ApplicationDiscoveryService {
     public init() {}
     
     public func apps(in device: Device) async throws -> [Application] {
-        return await apps(in: device.dataPath + "/Containers/Bundle/Application")
+        return try await apps(in: device.dataPath + "/Containers/Bundle/Application")
     }
 
-    public func apps(in path: String) async -> [Application] {
-        await withTaskGroup(of: Application?.self, returning: [Application].self) { taskGroup in
-            let content = Process.cmd("/bin/ls '\(path)' -1q --color=none --")
+    public func apps(in path: String) async throws -> [Application] {
+        try await withThrowingTaskGroup(of: Application?.self, returning: [Application].self) { taskGroup in
+            let content = try await Process.cmd("/bin/ls '\(path)' -1q --color=none --")
             var apps = [Application]()
 
             let rows = content
@@ -50,7 +50,7 @@ public class ApplicationDiscoveryService {
                 }
             }
 
-            for await appData in taskGroup {
+            for try await appData in taskGroup {
                 guard let appData = appData else { continue }
                 apps.append(appData)
             }
@@ -79,7 +79,7 @@ public class ApplicationDiscoveryService {
     
     static func application(at path: String, identifier: String) async throws -> Application {
         let bundleDirUrl = URL(fileURLWithPath: "\(path)/\(identifier)")
-        let plistPath = Process.cmd("/usr/bin/find \(bundleDirUrl.path) -name Info.plist -maxdepth 2")
+        let plistPath = try await Process.cmd("/usr/bin/find \(bundleDirUrl.path) -name Info.plist -maxdepth 2")
             .trimmingCharacters(in: .whitespacesAndNewlines)
         let plistURL = URL(fileURLWithPath: plistPath)
         

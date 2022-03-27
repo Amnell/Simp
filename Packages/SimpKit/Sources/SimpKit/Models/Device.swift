@@ -76,7 +76,7 @@ extension Device: CustomDebugStringConvertible {
             deviceTypeIdentifier: \(deviceTypeIdentifier)
             state: \(state)
             name: \(name)
-            applications: \(applications)
+            applications: \(applications ?? [])
         –––––––––––––––––––––––––––––––––––––––––
         """
     }
