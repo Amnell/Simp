@@ -35,6 +35,8 @@ struct DevicesView: View {
     @EnvironmentObject var historyStore: HistoryStore<Push>
     @EnvironmentObject var deviceDiscoveryManager: DeviceDiscoveryManager
     
+    @State var selectedDeviceId: String?
+    
     func deviceRow(device: Device) -> some View {
         NavigationLink {
             ApplicationsListView(device: device)
@@ -44,19 +46,21 @@ struct DevicesView: View {
     }
     
     var body: some View {
-        List {
+        List(selection: $selectedDeviceId) {
             Section("Booted") {
                 ForEach(viewModel.devices.filter({ $0.state == .booted })) { device in
                     deviceRow(device: device)
+                        .tag(device.id)
                 }
             }
             
             Section("Other") {
                 ForEach(viewModel.devices.filter({ $0.state != .booted })) { device in
                     deviceRow(device: device)
+                        .tag(device.id)
                 }
             }
-        }
+        }.animation(.default, value: viewModel.devices)
     }
 }
 
