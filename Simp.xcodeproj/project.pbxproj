@@ -18,6 +18,7 @@
 		11A95D6C27EF58CC00CF6777 /* DeviceRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A95D6B27EF58CC00CF6777 /* DeviceRowView.swift */; };
 		11A95D6F27EFA53400CF6777 /* FileWatcher in Frameworks */ = {isa = PBXBuildFile; productRef = 11A95D6E27EFA53400CF6777 /* FileWatcher */; };
 		11A95D7227EFB4D400CF6777 /* ApplicationsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A95D7127EFB4D400CF6777 /* ApplicationsListView.swift */; };
+		11A95D7727F1014000CF6777 /* ApplicationRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A95D7627F1014000CF6777 /* ApplicationRowView.swift */; };
 		11AA018D26060D5B00EDE89E /* SimpApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11AA017926060D5800EDE89E /* SimpApp.swift */; };
 		11AA018F26060D5B00EDE89E /* ComposePushView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11AA017A26060D5800EDE89E /* ComposePushView.swift */; };
 		11AA019126060D5B00EDE89E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 11AA017B26060D5B00EDE89E /* Assets.xcassets */; };
@@ -33,6 +34,7 @@
 		11A95D6827EF51C000CF6777 /* DevicesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevicesView.swift; sourceTree = "<group>"; };
 		11A95D6B27EF58CC00CF6777 /* DeviceRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceRowView.swift; sourceTree = "<group>"; };
 		11A95D7127EFB4D400CF6777 /* ApplicationsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationsListView.swift; sourceTree = "<group>"; };
+		11A95D7627F1014000CF6777 /* ApplicationRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationRowView.swift; sourceTree = "<group>"; };
 		11AA017926060D5800EDE89E /* SimpApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpApp.swift; sourceTree = "<group>"; };
 		11AA017A26060D5800EDE89E /* ComposePushView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposePushView.swift; sourceTree = "<group>"; };
 		11AA017B26060D5B00EDE89E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -120,6 +122,7 @@
 			isa = PBXGroup;
 			children = (
 				11A95D7127EFB4D400CF6777 /* ApplicationsListView.swift */,
+				11A95D7627F1014000CF6777 /* ApplicationRowView.swift */,
 			);
 			path = Device;
 			sourceTree = "<group>";
@@ -275,6 +278,7 @@
 				11A95D6C27EF58CC00CF6777 /* DeviceRowView.swift in Sources */,
 				11A95D6927EF51C000CF6777 /* DevicesView.swift in Sources */,
 				117EB227275F442D0072188D /* Device+AsyncSend.swift in Sources */,
+				11A95D7727F1014000CF6777 /* ApplicationRowView.swift in Sources */,
 				11AA018D26060D5B00EDE89E /* SimpApp.swift in Sources */,
 				1113C03D275E68F8009CE68D /* ComposePushViewModel.swift in Sources */,
 			);

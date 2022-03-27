@@ -29,26 +29,7 @@ struct ApplicationsListView: View {
                 NavigationLink {
                     ComposePushView(viewModel: ComposePushViewModel(device: device, application: application, historyStore: historyStore))
                 } label: {
-                    HStack {
-                        if let image = application.icon {
-                            Image(nsImage: image)
-                                .resizable()
-                                .frame(width: 32, height: 32)
-                                .cornerRadius(8)
-                        } else {
-                            RoundedRectangle(cornerRadius: 8)
-                                .strokeBorder(style: StrokeStyle(lineWidth: 2, dash: [3]))
-                                .frame(width: 32, height: 32)
-                                
-                        }
-                            
-                     
-                        VStack(alignment: .leading) {
-                            Text(application.name)
-                            Text(application.bundleIdentifier)
-                                .font(.subheadline)
-                        }
-                    }
+                    ApplicationRowView(application: application)
                 }.tag(application)
             }
         } else {
@@ -62,3 +43,4 @@ struct ApplicationsListView_Previews: PreviewProvider {
         ApplicationsListView(device: Device(dataPath: "", logPath: "", udid: "", isAvailable: true, deviceTypeIdentifier: "", state: .booted, name: "Hello"))
     }
 }
+
