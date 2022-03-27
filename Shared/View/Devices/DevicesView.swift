@@ -22,6 +22,7 @@ class DevicesViewModel: ObservableObject {
         deviceDiscoveryManager.$devices
             .map({ $0.sorted(by: \.name) })
             .map({ $0.filter({ $0.isAvailable }) })
+            .receive(on: RunLoop.main)
             .assign(to: \.devices, on: self)
             .store(in: &cancellables)
     }
@@ -29,7 +30,7 @@ class DevicesViewModel: ObservableObject {
 
 struct DevicesView: View {
     
-    @ObservedObject var viewModel: DevicesViewModel
+    @StateObject var viewModel: DevicesViewModel
     @EnvironmentObject var historyStore: HistoryStore<Push>
     @EnvironmentObject var deviceDiscoveryManager: DeviceDiscoveryManager
     

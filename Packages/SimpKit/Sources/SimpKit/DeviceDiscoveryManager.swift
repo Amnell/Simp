@@ -7,15 +7,15 @@
 
 import Foundation
 import Combine
+import SwiftUI
 
-@MainActor
 public class DeviceDiscoveryManager: ObservableObject {
     @Published public var devices: [Device] = []
 
     private let appDiscoveryService: ApplicationDiscoveryService
     private var timerCancellable: AnyCancellable?
     private let queue = DispatchQueue(label: "DeviceDiscoveryManager.queue", qos: .utility)
-
+    
     public init(appDiscoveryService: ApplicationDiscoveryService = ApplicationDiscoveryService()) {
         self.appDiscoveryService = appDiscoveryService
     }
@@ -26,16 +26,12 @@ public class DeviceDiscoveryManager: ObservableObject {
 
         timerCancellable = Publishers.Merge(timerPublisher, initialDate)
             .receive(on: queue)
-            .sink { [weak self] _ in
-                guard let self = self else { return }
-                Task.init {
-                    do {
-                        try await self.asyncFetch()
-                    } catch {
-                        assertionFailure("error: \(error)")
-                    }
-                }
+            .asyncMap { _ in
+                try await self.asyncFetch()
             }
+            .catch({ _ in Just([]) })
+            .receive(on: RunLoop.main)
+            .assign(to: \.devices, on: self)
     }
 
     public func stopFetch() {
@@ -44,22 +40,19 @@ public class DeviceDiscoveryManager: ObservableObject {
 
     @discardableResult
     public func asyncFetch() async throws -> [Device] {
-        let devices = try await withThrowingTaskGroup(of: [Device].self) { group -> [Device] in
-            let output = Process.cmd("/usr/bin/xcrun simctl list --json")
-
-            let data = output.data(using: .utf8)!
-            let listResult = try JSONDecoder().decode(DevicesResult.self, from: data)
-
-            var theDevices: [Device] = []
-            
-            for var device in listResult.devices {
-                device.applications = try? await appDiscoveryService.apps(in: device)
-                theDevices.append(device)
-            }
-            return theDevices
+        let output = try await Process.cmd("/usr/bin/xcrun simctl list --json")
+        
+        let data = output.data(using: .utf8)!
+        let listResult = try JSONDecoder().decode(DevicesResult.self, from: data)
+        
+        var devices: [Device] = []
+        
+        for var device in listResult.devices {
+            device.applications = try? await appDiscoveryService.apps(in: device)
+            devices.append(device)
         }
-
-        self.devices = devices.sorted(by: { lhs, rhs in
+        
+        devices = devices.sorted(by: { lhs, rhs in
             if lhs.name == rhs.name {
                 return lhs.udid < rhs.udid
             }
@@ -67,6 +60,26 @@ public class DeviceDiscoveryManager: ObservableObject {
             return (lhs.name < rhs.name)
         })
         
-        return self.devices
+        return devices
+    }
+}
+
+extension Publisher {
+    func asyncMap<T>(
+        _ transform: @escaping (Output) async throws -> T
+    ) -> Publishers.FlatMap<Future<T, Error>,
+                            Publishers.SetFailureType<Self, Error>> {
+        flatMap { value in
+            Future { promise in
+                Task {
+                    do {
+                        let output = try await transform(value)
+                        promise(.success(output))
+                    } catch {
+                        promise(.failure(error))
+                    }
+                }
+            }
+        }
     }
 }
