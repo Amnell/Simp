@@ -22,6 +22,7 @@ class DevicesViewModel: ObservableObject {
         deviceDiscoveryManager.$devices
             .map({ $0.sorted(by: \.name) })
             .map({ $0.filter({ $0.isAvailable }) })
+            .map({ $0.filter({ ($0.applications?.count ?? 0) > 0 }) })
             .receive(on: RunLoop.main)
             .assign(to: \.devices, on: self)
             .store(in: &cancellables)
