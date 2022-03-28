@@ -8,23 +8,36 @@
 import SwiftUI
 import SimpKit
 
+struct ApplicationIconView: View {
+    @State var image: NSImage?
+    @State var dashLineWidth: CGFloat = 2
+    @State var dashLengths: [CGFloat] = [3]
+    
+    var body: some View {
+        GeometryReader { proxy in
+            VStack {
+                if let image = image {
+                    Image(nsImage: image)
+                        .resizable()
+                        .cornerRadius(proxy.size.width * 0.25)
+                } else {
+                    RoundedRectangle(cornerRadius: proxy.size.width * 0.25)
+                        .strokeBorder(style: StrokeStyle(lineWidth: dashLineWidth, dash: dashLengths))
+                }
+            }
+        }
+    }
+}
+
 struct ApplicationRowView: View {
     @State var application: Application
     
     var body: some View {
         HStack {
-            if let image = application.icon {
-                Image(nsImage: image)
-                    .resizable()
-                    .frame(width: 32, height: 32)
-                    .cornerRadius(8)
-            } else {
-                RoundedRectangle(cornerRadius: 8)
-                    .strokeBorder(style: StrokeStyle(lineWidth: 2, dash: [3]))
-                    .frame(width: 32, height: 32)
-                
-            }
-            
+            ApplicationIconView(image: application.icon)
+                .frame(width: 32, height: 32)
+                .shadow(radius: 2)
+                .padding(4)
             
             VStack(alignment: .leading) {
                 Text(application.name)
