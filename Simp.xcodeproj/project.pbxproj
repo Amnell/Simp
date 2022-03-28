@@ -16,7 +16,6 @@
 		11A95D6727EC825500CF6777 /* SimpKit in Frameworks */ = {isa = PBXBuildFile; productRef = 11A95D6627EC825500CF6777 /* SimpKit */; };
 		11A95D6927EF51C000CF6777 /* DevicesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A95D6827EF51C000CF6777 /* DevicesView.swift */; };
 		11A95D6C27EF58CC00CF6777 /* DeviceRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A95D6B27EF58CC00CF6777 /* DeviceRowView.swift */; };
-		11A95D6F27EFA53400CF6777 /* FileWatcher in Frameworks */ = {isa = PBXBuildFile; productRef = 11A95D6E27EFA53400CF6777 /* FileWatcher */; };
 		11A95D7227EFB4D400CF6777 /* ApplicationsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A95D7127EFB4D400CF6777 /* ApplicationsListView.swift */; };
 		11A95D7727F1014000CF6777 /* ApplicationRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A95D7627F1014000CF6777 /* ApplicationRowView.swift */; };
 		11AA018D26060D5B00EDE89E /* SimpApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11AA017926060D5800EDE89E /* SimpApp.swift */; };
@@ -49,7 +48,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				11A95D6F27EFA53400CF6777 /* FileWatcher in Frameworks */,
 				11A95D6727EC825500CF6777 /* SimpKit in Frameworks */,
 				1113C03B275E5232009CE68D /* CodeEditor in Frameworks */,
 			);
@@ -212,7 +210,6 @@
 			packageProductDependencies = (
 				1113C03A275E5232009CE68D /* CodeEditor */,
 				11A95D6627EC825500CF6777 /* SimpKit */,
-				11A95D6E27EFA53400CF6777 /* FileWatcher */,
 			);
 			productName = "SimP (macOS)";
 			productReference = 11AA018826060D5B00EDE89E /* Simp.app */;
@@ -243,7 +240,6 @@
 			mainGroup = 11AA017326060D5800EDE89E;
 			packageReferences = (
 				1113C036275E51AF009CE68D /* XCRemoteSwiftPackageReference "CodeEditor" */,
-				11A95D6D27EFA53400CF6777 /* XCRemoteSwiftPackageReference "FileWatcher" */,
 			);
 			productRefGroup = 11AA018126060D5B00EDE89E /* Products */;
 			projectDirPath = "";
@@ -480,14 +476,6 @@
 				minimumVersion = 1.0.0;
 			};
 		};
-		11A95D6D27EFA53400CF6777 /* XCRemoteSwiftPackageReference "FileWatcher" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/eonist/FileWatcher.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.2.3;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -499,11 +487,6 @@
 		11A95D6627EC825500CF6777 /* SimpKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = SimpKit;
-		};
-		11A95D6E27EFA53400CF6777 /* FileWatcher */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 11A95D6D27EFA53400CF6777 /* XCRemoteSwiftPackageReference "FileWatcher" */;
-			productName = FileWatcher;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
