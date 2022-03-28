@@ -66,7 +66,7 @@ struct ComposePushView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ComposePushView(viewModel: ComposePushViewModel(
-            device: Device(dataPath: "", logPath: "", udid: "", isAvailable: true, deviceTypeIdentifier: "iphone", state: .booted, name: "Hello"),
+            device: Device(dataPath: "", logPath: "", udid: "", isAvailable: true, deviceTypeIdentifier: "iphone", state: .booted, name: "Hello", applications: nil),
             application: Application(id: "", path: "", bundleIdentifier: "somethung.s", name: "Name", iconUrl: nil),
             push: nil,
             historyStore: HistoryStore<Push>()))

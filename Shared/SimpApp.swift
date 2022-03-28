@@ -16,7 +16,13 @@ struct SimpApp: App {
 
     init() {
         historyStore = HistoryStore<Push>()
-        deviceDiscoveryManager = DeviceDiscoveryManager(appDiscoveryService: ApplicationDiscoveryService())
+        
+        if ProcessInfo.processInfo.environment["mock_data_source"] == "true" {
+            deviceDiscoveryManager = DeviceDiscoveryManager(dataSource: MockDeviceDiscoveryDataSource()) //DeviceDiscoveryManager(dataSource: FilesystemDeviceDiscoveryDataSource())
+        } else {
+            deviceDiscoveryManager = DeviceDiscoveryManager(dataSource: FilesystemDeviceDiscoveryDataSource())
+        }
+        
         deviceDiscoveryManager.startFetch(interval: 10)
 
         try! historyStore.load()

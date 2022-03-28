@@ -9,15 +9,51 @@ import Foundation
 import Combine
 import SwiftUI
 
+public protocol DeviceDiscoveryDataSource {
+    func allDevices() async throws -> [Device]
+}
+
+public struct FilesystemDeviceDiscoveryDataSource: DeviceDiscoveryDataSource {
+    let appDiscoveryService: ApplicationDiscoveryServiceType
+    
+    public init() {
+        self.appDiscoveryService = ApplicationDiscoveryService()
+    }
+    
+    public func allDevices() async throws -> [Device] {
+        let output = try await Process.cmd("/usr/bin/xcrun simctl list --json")
+        
+        let data = output.data(using: .utf8)!
+        let listResult = try JSONDecoder().decode(DevicesResult.self, from: data)
+        
+        var devices: [Device] = []
+        
+        for var device in listResult.devices {
+            device.applications = try? await appDiscoveryService.apps(in: device)
+            devices.append(device)
+        }
+        
+        devices = devices.sorted(by: { lhs, rhs in
+            if lhs.name == rhs.name {
+                return lhs.udid < rhs.udid
+            }
+            
+            return (lhs.name < rhs.name)
+        })
+        
+        return devices
+    }
+}
+
 public class DeviceDiscoveryManager: ObservableObject {
     @Published public var devices: [Device] = []
 
-    private let appDiscoveryService: ApplicationDiscoveryService
     private var timerCancellable: AnyCancellable?
     private let queue = DispatchQueue(label: "DeviceDiscoveryManager.queue", qos: .utility)
+    private let dataSource: DeviceDiscoveryDataSource
     
-    public init(appDiscoveryService: ApplicationDiscoveryService = ApplicationDiscoveryService()) {
-        self.appDiscoveryService = appDiscoveryService
+    public init(dataSource: DeviceDiscoveryDataSource) {
+        self.dataSource = dataSource
     }
 
     public func startFetch(interval: TimeInterval = 5) {
@@ -40,27 +76,7 @@ public class DeviceDiscoveryManager: ObservableObject {
 
     @discardableResult
     public func asyncFetch() async throws -> [Device] {
-        let output = try await Process.cmd("/usr/bin/xcrun simctl list --json")
-        
-        let data = output.data(using: .utf8)!
-        let listResult = try JSONDecoder().decode(DevicesResult.self, from: data)
-        
-        var devices: [Device] = []
-        
-        for var device in listResult.devices {
-            device.applications = try? await appDiscoveryService.apps(in: device)
-            devices.append(device)
-        }
-        
-        devices = devices.sorted(by: { lhs, rhs in
-            if lhs.name == rhs.name {
-                return lhs.udid < rhs.udid
-            }
-            
-            return (lhs.name < rhs.name)
-        })
-        
-        return devices
+        try await dataSource.allDevices()
     }
 }
 
