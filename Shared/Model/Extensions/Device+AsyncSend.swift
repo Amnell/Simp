@@ -25,7 +25,7 @@ extension Device {
     @discardableResult
     func asyncSend(bundleId: String, payload: String) async throws -> String {
         let file = try tempAPNSFile(payload: payload)
-        return try await Process.cmd("/usr/bin/xcrun simctl push \(udid) \(bundleId) \(file.path)")
+        return try await Process.cmd("/usr/bin/xcrun", arguments:["simctl", "push", udid, bundleId, file.path])
     }
 
     @discardableResult
@@ -34,11 +34,11 @@ extension Device {
     }
     
     func boot() async throws {
-        try await Process.cmd("/usr/bin/xcrun simctl boot \(self.udid)")
-        try await Process.cmd("/usr/bin/open -a simulator")
+        try await Process.cmd("/usr/bin/xcrun", arguments:["simctl", "boot", self.udid])
+        try await Process.cmd("/usr/bin/open", arguments:["-a", "simulator"])
     }
     
     func shutdown() async throws {
-        try await Process.cmd("/usr/bin/xcrun simctl shutdown \(self.udid)")
+        try await Process.cmd("/usr/bin/xcrun", arguments:["simctl", "shutdown", self.udid])
     }
 }

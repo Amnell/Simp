@@ -21,7 +21,7 @@ public struct FilesystemDeviceDiscoveryDataSource: DeviceDiscoveryDataSource {
     }
     
     public func allDevices() async throws -> [Device] {
-        let output = try await Process.cmd("/usr/bin/xcrun simctl list --json")
+        let output = try await Process.cmd("/usr/bin/xcrun", arguments: ["simctl", "list", "--json"])
         
         let data = output.data(using: .utf8)!
         let listResult = try JSONDecoder().decode(DevicesResult.self, from: data)
