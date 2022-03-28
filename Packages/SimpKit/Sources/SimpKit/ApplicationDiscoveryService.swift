@@ -29,14 +29,14 @@ public class ApplicationDiscoveryService: ApplicationDiscoveryServiceType {
     public init() {}
     
     public func apps(in device: Device) async throws -> [Application] {
-        return try await apps(in: device.dataPath + "/Containers/Bundle/Application")
+        try await apps(in: device.dataPath + "/Containers/Bundle/Application")
     }
 
     public func apps(in path: String) async throws -> [Application] {
         try await withThrowingTaskGroup(of: Application?.self, returning: [Application].self) { taskGroup in
-            let content = try await Process.cmd("/bin/ls '\(path)' -1q --color=none --")
+            let content = try await Process.cmd("/bin/ls", arguments:["-1q", "--color=none", "--", path])
             var apps = [Application]()
-
+            
             let rows = content
                 .trimmingCharacters(in: .whitespacesAndNewlines)
                 .components(separatedBy: "\n")
@@ -81,7 +81,7 @@ public class ApplicationDiscoveryService: ApplicationDiscoveryServiceType {
     
     static func application(at path: String, identifier: String) async throws -> Application {
         let bundleDirUrl = URL(fileURLWithPath: "\(path)/\(identifier)")
-        let plistPath = try await Process.cmd("/usr/bin/find \(bundleDirUrl.path) -name Info.plist -maxdepth 2")
+        let plistPath = try await Process.cmd("/usr/bin/find", arguments: [bundleDirUrl.path, "-name", "Info.plist", "-maxdepth", "2"])
             .trimmingCharacters(in: .whitespacesAndNewlines)
         let plistURL = URL(fileURLWithPath: plistPath)
         
@@ -102,26 +102,5 @@ public class ApplicationDiscoveryService: ApplicationDiscoveryServiceType {
                                       iconUrl: iconUrl)
         
         return application
-    }
-}
-
-extension String {
-    fileprivate static func matches(for regex: String, in text: String) -> [String] {
-
-        do {
-            let regex = try NSRegularExpression(pattern: regex, options: [])
-            let nsString = text as NSString
-            let results = regex.matches(in: text, options: [], range: NSRange(location: 0, length: nsString.length))
-            var match = [String]()
-            for result in results {
-                for i in 0 ..< result.numberOfRanges {
-                    match.append(nsString.substring(with: result.range(at: i)))
-                }
-            }
-            return match
-        } catch let error as NSError {
-            print("invalid regex: \(error.localizedDescription)")
-            return []
-        }
     }
 }

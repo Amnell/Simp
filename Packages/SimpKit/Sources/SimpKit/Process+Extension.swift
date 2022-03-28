@@ -12,12 +12,6 @@ import Foundation
 extension Process {
     @discardableResult
     public static func cmd(_ command: String, arguments: [String]) async throws -> String {
-        let command = command.appending(arguments: arguments)
-        return try await cmd(command)
-    }
-    
-    @discardableResult
-    public static func cmd(_ command: String) async throws -> String {
         let process = Process()
         
         let successPipe = Pipe()
@@ -27,8 +21,8 @@ extension Process {
         
         process.standardOutput = successPipe
         process.standardError = errorPipe
-        process.arguments = ["-c", command]
-        process.launchPath = "/bin/sh"
+        process.arguments = arguments
+        process.launchPath = command
         
         do {
             try process.run()
@@ -40,7 +34,7 @@ extension Process {
         let successData = successFileReadHandle.readDataToEndOfFile()
         try? successFileReadHandle.close()
         
-        return successData.output()
+        return successData.output().trimmingCharacters(in: .whitespacesAndNewlines)
     }
 }
 
