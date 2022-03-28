@@ -33,7 +33,6 @@ struct DevicesView: View {
     
     @StateObject var viewModel: DevicesViewModel
     @EnvironmentObject var historyStore: HistoryStore<Push>
-    @EnvironmentObject var deviceDiscoveryManager: DeviceDiscoveryManager
     
     @State var selectedDeviceId: String?
     
@@ -66,6 +65,6 @@ struct DevicesView: View {
 
 struct DevicesView_Previews: PreviewProvider {
     static var previews: some View {
-        DevicesView(viewModel: DevicesViewModel(deviceDiscoveryManager: DeviceDiscoveryManager()))
+        DevicesView(viewModel: DevicesViewModel(deviceDiscoveryManager: DeviceDiscoveryManager(dataSource: FilesystemDeviceDiscoveryDataSource())))
     }
 }

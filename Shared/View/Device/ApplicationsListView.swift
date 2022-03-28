@@ -40,7 +40,7 @@ struct ApplicationsListView: View {
 
 struct ApplicationsListView_Previews: PreviewProvider {
     static var previews: some View {
-        ApplicationsListView(device: Device(dataPath: "", logPath: "", udid: "", isAvailable: true, deviceTypeIdentifier: "", state: .booted, name: "Hello"))
+        ApplicationsListView(device: Device(dataPath: "", logPath: "", udid: "", isAvailable: true, deviceTypeIdentifier: "", state: .booted, name: "Hello", applications: nil))
     }
 }
 

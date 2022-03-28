@@ -28,6 +28,7 @@ let package = Package(
             ]),
         .target(
             name: "SimpKit",
-            dependencies: [])
+            dependencies: [],
+            resources: [.process("Resources")])
     ]
 )

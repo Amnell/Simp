@@ -16,18 +16,18 @@ public struct Device: Codable, Identifiable, Hashable, Equatable {
         case unknown = "unknown"
     }
     
-    public enum DeviceType {
-        case iphone
-        case appleWatch
-        case iPad
-        case unknown
+    public enum DeviceType: String {
+        case iphone = "Apple-Watch"
+        case appleWatch = "iPhone"
+        case iPad = "iPad"
+        case unknown = "unknown"
         
         init(string: String) {
-            if string.contains("com.apple.CoreSimulator.SimDeviceType.Apple-Watch") {
+            if string.contains("Apple-Watch") {
                 self = .appleWatch
-            } else if string.contains("com.apple.CoreSimulator.SimDeviceType.iPhone") {
+            } else if string.contains("iPhone") {
                 self = .iphone
-            } else if string.contains("com.apple.CoreSimulator.SimDeviceType.iPad") {
+            } else if string.contains("iPad") {
                 self = .iPad
             } else {
                 self = .unknown
@@ -52,7 +52,7 @@ public struct Device: Codable, Identifiable, Hashable, Equatable {
         udid
     }
     
-    public init(dataPath: String, logPath: String, udid: String, isAvailable: Bool, deviceTypeIdentifier: String, state: Device.State, name: String, applications: [Application]? = nil) {
+    public init(dataPath: String, logPath: String, udid: String, isAvailable: Bool, deviceTypeIdentifier: String, state: Device.State, name: String, applications: [Application]?) {
         self.dataPath = dataPath
         self.logPath = logPath
         self.udid = udid

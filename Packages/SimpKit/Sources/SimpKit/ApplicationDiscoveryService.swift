@@ -10,7 +10,12 @@ import Combine
 import AppKit
 import os.log
 
-public class ApplicationDiscoveryService {
+public protocol ApplicationDiscoveryServiceType {
+    func apps(in device: Device) async throws -> [Application]
+    func apps(in path: String) async throws -> [Application]
+}
+
+public class ApplicationDiscoveryService: ApplicationDiscoveryServiceType {
 
     private static let logger = Logger(subsystem: "SimpKit", category: "ApplicationDiscoveryService")
     
@@ -19,8 +24,6 @@ public class ApplicationDiscoveryService {
         case bundleNameNotFound
         case infoPlistNotFound
         case failedToLoadAppData
-        
-    
     }
     
     public init() {}
