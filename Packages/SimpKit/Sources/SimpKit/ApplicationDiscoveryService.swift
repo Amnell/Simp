@@ -40,8 +40,7 @@ public class ApplicationDiscoveryService: ApplicationDiscoveryServiceType {
             let rows = content
                 .trimmingCharacters(in: .whitespacesAndNewlines)
                 .components(separatedBy: "\n")
-                .dropFirst()
-
+    
             rows.forEach { appIdentifier in
                 taskGroup.addTask {
                     do {
