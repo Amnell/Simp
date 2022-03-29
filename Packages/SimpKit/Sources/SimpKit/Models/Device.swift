@@ -16,22 +16,14 @@ public struct Device: Codable, Identifiable, Hashable, Equatable {
         case unknown = "unknown"
     }
     
-    public enum DeviceType: String {
-        case iphone = "Apple-Watch"
+    public enum DeviceType: String, CaseIterable, Codable {
+        case iPhone = "Apple-Watch"
         case appleWatch = "iPhone"
         case iPad = "iPad"
         case unknown = "unknown"
         
-        init(string: String) {
-            if string.contains("Apple-Watch") {
-                self = .appleWatch
-            } else if string.contains("iPhone") {
-                self = .iphone
-            } else if string.contains("iPad") {
-                self = .iPad
-            } else {
-                self = .unknown
-            }
+        public init(rawValue: String) {
+            self = Self.allCases.first(where: { rawValue.contains($0.rawValue) }) ?? .unknown
         }
     }
 
@@ -39,25 +31,25 @@ public struct Device: Codable, Identifiable, Hashable, Equatable {
     public let logPath: String
     public let udid: String
     public let isAvailable: Bool
-    private let deviceTypeIdentifier: String
+    public let deviceType: DeviceType
     public let state: State
     public let name: String
     public var applications: [Application]?
     
-    public var deviceype: DeviceType {
-        DeviceType(string: deviceTypeIdentifier)
-    }
-
     public var id: String {
         udid
     }
     
-    public init(dataPath: String, logPath: String, udid: String, isAvailable: Bool, deviceTypeIdentifier: String, state: Device.State, name: String, applications: [Application]?) {
+    enum CodingKeys: String, CodingKey {
+        case dataPath, logPath, udid, isAvailable, deviceType = "deviceTypeIdentifier", state, name
+    }
+    
+    public init(dataPath: String, logPath: String, udid: String, isAvailable: Bool, deviceType: DeviceType, state: Device.State, name: String, applications: [Application]?) {
         self.dataPath = dataPath
         self.logPath = logPath
         self.udid = udid
         self.isAvailable = isAvailable
-        self.deviceTypeIdentifier = deviceTypeIdentifier
+        self.deviceType = deviceType
         self.state = state
         self.name = name
         self.applications = applications
@@ -73,7 +65,7 @@ extension Device: CustomDebugStringConvertible {
             logPath: \(logPath)
             udid: \(udid)
             isAvailable: \(isAvailable)
-            deviceTypeIdentifier: \(deviceTypeIdentifier)
+            deviceType: \(deviceType.rawValue)
             state: \(state)
             name: \(name)
             applications: \(applications ?? [])
