@@ -46,9 +46,9 @@ struct DeviceRowView: View {
 
 struct DeviceRowView_Previews: PreviewProvider {
     static var previews: some View {
-        DeviceRowView(device: Device(dataPath: "", logPath: "", udid: "UUID", isAvailable: true, deviceTypeIdentifier: "iOS", state: Device.State.booted, name: "Booted device", applications: nil))
+        DeviceRowView(device: Device(dataPath: "", logPath: "", udid: "UUID", isAvailable: true, deviceType: .iPhone, state: Device.State.booted, name: "Booted device", applications: nil))
         
-        DeviceRowView(device: Device(dataPath: "", logPath: "", udid: "UUID", isAvailable: true, deviceTypeIdentifier: "iOS", state: Device.State.shutdown, name: "Shutdown device", applications: nil))
+        DeviceRowView(device: Device(dataPath: "", logPath: "", udid: "UUID", isAvailable: true, deviceType: .iPhone, state: Device.State.shutdown, name: "Shutdown device", applications: nil))
             
     }
 }

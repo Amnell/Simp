@@ -12,10 +12,10 @@ extension Device {
     
     public static func mock() -> [Device] {
         [
-            .init(dataPath: "", logPath: "", udid: "1FD268DB-C2F3-4C1A-A822-748AB49AC601", isAvailable: true, deviceTypeIdentifier: DeviceType.iphone.rawValue, state: .booted, name: "iPhone 13 Pro", applications: Application.mockCollection1()),
-            .init(dataPath: "", logPath: "", udid: "70E77384-2F0E-420F-8C35-2C953276C252", isAvailable: true, deviceTypeIdentifier: DeviceType.iphone.rawValue, state: .booted, name: "iPhone 12", applications: Application.mockCollection2()),
-            .init(dataPath: "", logPath: "", udid: "E412F72A-005B-4BDA-B65D-E218E89FD6F8", isAvailable: true, deviceTypeIdentifier: DeviceType.iphone.rawValue, state: .shuttingDown, name: "iPhone 7", applications: Application.mockCollection3()),
-            .init(dataPath: "", logPath: "", udid: "1EB6BC4A-EA45-4C58-8250-4426D7D08369", isAvailable: true, deviceTypeIdentifier: DeviceType.iphone.rawValue, state: .shutdown, name: "iPad", applications: Application.mockCollection1()),
+            .init(dataPath: "", logPath: "", udid: "1FD268DB-C2F3-4C1A-A822-748AB49AC601", isAvailable: true, deviceType: .iPhone, state: .booted, name: "iPhone 13 Pro", applications: Application.mockCollection1()),
+            .init(dataPath: "", logPath: "", udid: "70E77384-2F0E-420F-8C35-2C953276C252", isAvailable: true, deviceType: .iPhone, state: .booted, name: "iPhone 12", applications: Application.mockCollection2()),
+            .init(dataPath: "", logPath: "", udid: "E412F72A-005B-4BDA-B65D-E218E89FD6F8", isAvailable: true, deviceType: .iPhone, state: .shuttingDown, name: "iPhone 7", applications: Application.mockCollection3()),
+            .init(dataPath: "", logPath: "", udid: "1EB6BC4A-EA45-4C58-8250-4426D7D08369", isAvailable: true, deviceType: .iPhone, state: .shutdown, name: "iPad", applications: Application.mockCollection1()),
         ]
         
     }
