@@ -10,9 +10,18 @@ import SimpKit
 import Combine
 
 class DevicesViewModel: ObservableObject {
-    @ObservedObject var deviceDiscoveryManager: DeviceDiscoveryManager
+    var deviceDiscoveryManager: DeviceDiscoveryManager
     
     @Published var devices: [Device] = []
+    @Published var selectedDevice: Device?
+    
+    var bootedDevices: [Device] {
+        devices.filter({ $0.state == .booted })
+    }
+    
+    var otherDevices: [Device] {
+        devices.filter({ $0.state != .booted })
+    }
     
     private var cancellables = Set<AnyCancellable>()
     
@@ -34,29 +43,25 @@ struct DevicesView: View {
     @StateObject var viewModel: DevicesViewModel
     @EnvironmentObject var historyStore: HistoryStore<Push>
     
-    @State var selectedDeviceId: String?
-    
     func deviceRow(device: Device) -> some View {
-        NavigationLink {
+        NavigationLink(tag: device, selection: $viewModel.selectedDevice) {
             ApplicationsListView(device: device)
         } label: {
             DeviceRowView(device: device)
-        }.tag(device)
+        }
     }
     
     var body: some View {
-        List(selection: $selectedDeviceId) {
+        List(selection: $viewModel.selectedDevice) {
             Section("Booted") {
-                ForEach(viewModel.devices.filter({ $0.state == .booted })) { device in
+                ForEach(viewModel.bootedDevices) { device in
                     deviceRow(device: device)
-                        .tag(device.id)
                 }
             }
             
             Section("Other") {
-                ForEach(viewModel.devices.filter({ $0.state != .booted })) { device in
+                ForEach(viewModel.otherDevices) { device in
                     deviceRow(device: device)
-                        .tag(device.id)
                 }
             }
         }.animation(.default, value: viewModel.devices)
