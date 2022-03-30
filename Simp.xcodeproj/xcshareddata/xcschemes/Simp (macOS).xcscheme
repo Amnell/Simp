@@ -64,7 +64,7 @@
          <EnvironmentVariable
             key = "mock_data_source"
             value = "true"
-            isEnabled = "YES">
+            isEnabled = "NO">
          </EnvironmentVariable>
       </EnvironmentVariables>
    </LaunchAction>
